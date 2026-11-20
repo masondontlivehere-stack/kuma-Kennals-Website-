@@ -1,0 +1,12 @@
+{
+  "name": "kuma-kennels",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler pages dev public --d1 DB=kuma-kennels-local --port 8788",
+    "deploy": "wrangler pages deploy public --project-name kuma-kennels"
+  },
+  "devDependencies": {
+    "wrangler": "^4.165.0"
+  }
+}

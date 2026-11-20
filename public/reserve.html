@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Reserve a Puppy — Kuma Kennels</title>
+<meta name="description" content="Apply for a Turkish Boz Shepherd puppy from Kuma Kennels. A short application about you and your home — we read every one personally.">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kuma Kennels">
+<meta property="og:title" content="Reserve a Puppy — Kuma Kennels">
+<meta property="og:description" content="Apply for a Turkish Boz Shepherd puppy from Kuma Kennels. A short application about you and your home — we read every one personally.">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="assets/js/boot.js"></script>
+<script src="assets/js/main.js" defer></script>
+<script src="assets/js/apply.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="index.html">Kuma Kennels</a>
+    <nav class="nav" aria-label="Main">
+      <ul>
+        <li><a href="breed.html">The Breed</a></li>
+        <li><a href="dogs.html">Our Dogs</a></li>
+        <li><a href="litters.html">Upcoming Litters</a></li>
+        <li><a href="past-litters.html">Past Litters</a></li>
+      </ul>
+      <a class="btn btn--primary btn--sm" href="reserve.html" aria-current="page">Reserve a puppy</a>
+    </nav>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu">
+      <span class="bars" aria-hidden="true"></span><span class="menu-toggle__label">Menu</span>
+    </button>
+  </div>
+</header>
+
+<div class="menu" id="menu" aria-hidden="true">
+  <nav aria-label="Mobile">
+    <ul>
+      <li><a href="index.html">Home<svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow"/></svg></a></li>
+      <li><a href="breed.html">The Breed<svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow"/></svg></a></li>
+      <li><a href="dogs.html">Our Dogs<svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow"/></svg></a></li>
+      <li><a href="litters.html">Upcoming Litters<svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow"/></svg></a></li>
+      <li><a href="past-litters.html">Past Litters<svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow"/></svg></a></li>
+    </ul>
+  </nav>
+  <a class="btn btn--primary" href="reserve.html">Reserve a puppy <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow"/></svg></a>
+</div>
+
+<main id="main">
+
+  <section class="page-head">
+    <div class="container page-head__grid">
+      <div data-reveal>
+        <p class="kicker">Reserve a puppy</p>
+        <h1>Apply for a puppy.</h1>
+      </div>
+      <p class="lede" data-reveal>A few questions about you and your home. It takes about five minutes, and we read every application personally.</p>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container apply">
+
+      <div class="form-card" data-reveal>
+        <form class="form" id="apply-form" action="api/applications" method="post" novalidate>
+          <div class="form-alert" role="alert" hidden></div>
+
+          <fieldset>
+            <legend>About you</legend>
+            <div class="field">
+              <label for="name">Full name</label>
+              <input id="name" name="name" type="text" autocomplete="name" maxlength="100" required data-required="Please tell us your name." aria-describedby="name-err">
+              <p class="error" id="name-err"></p>
+            </div>
+            <div class="row row--2">
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="200" required data-required="We need an email to reply to." aria-describedby="email-err">
+                <p class="error" id="email-err"></p>
+              </div>
+              <div class="field">
+                <label for="phone">Phone</label>
+                <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="40" required data-required="Please add a phone number." aria-describedby="phone-err">
+                <p class="error" id="phone-err"></p>
+              </div>
+            </div>
+            <div class="row row--city">
+              <div class="field">
+                <label for="city">City</label>
+                <input id="city" name="city" type="text" autocomplete="address-level2" maxlength="100" required data-required="Please add your city." aria-describedby="city-err">
+                <p class="error" id="city-err"></p>
+              </div>
+              <div class="field">
+                <label for="state">State</label>
+                <select id="state" name="state" autocomplete="address-level1" required data-required="Please choose your state." aria-describedby="state-err">
+                  <option value="">Select a state</option>
+                  <option value="AL">Alabama</option>
+                  <option value="AK">Alaska</option>
+                  <option value="AZ">Arizona</option>
+                  <option value="AR">Arkansas</option>
+                  <option value="CA">California</option>
+                  <option value="CO">Colorado</option>
+                  <option value="CT">Connecticut</option>
+                  <option value="DE">Delaware</option>
+                  <option value="DC">District of Columbia</option>
+                  <option value="FL">Florida</option>
+                  <option value="GA">Georgia</option>
+                  <option value="HI">Hawaii</option>
+                  <option value="ID">Idaho</option>
+                  <option value="IL">Illinois</option>
+                  <option value="IN">Indiana</option>
+                  <option value="IA">Iowa</option>
+                  <option value="KS">Kansas</option>
+                  <option value="KY">Kentucky</option>
+                  <option value="LA">Louisiana</option>
+                  <option value="ME">Maine</option>
+                  <option value="MD">Maryland</option>
+                  <option value="MA">Massachusetts</option>
+                  <option value="MI">Michigan</option>
+                  <option value="MN">Minnesota</option>
+                  <option value="MS">Mississippi</option>
+                  <option value="MO">Missouri</option>
+                  <option value="MT">Montana</option>
+                  <option value="NE">Nebraska</option>
+                  <option value="NV">Nevada</option>
+                  <option value="NH">New Hampshire</option>
+                  <option value="NJ">New Jersey</option>
+                  <option value="NM">New Mexico</option>
+                  <option value="NY">New York</option>
+                  <option value="NC">North Carolina</option>
+                  <option value="ND">North Dakota</option>
+                  <option value="OH">Ohio</option>
+                  <option value="OK">Oklahoma</option>
+                  <option value="OR">Oregon</option>
+                  <option value="PA">Pennsylvania</option>
+                  <option value="RI">Rhode Island</option>
+                  <option value="SC">South Carolina</option>
+                  <option value="SD">South Dakota</option>
+                  <option value="TN">Tennessee</option>
+                  <option value="TX">Texas</option>
+                  <option value="UT">Utah</option>
+                  <option value="VT">Vermont</option>
+                  <option value="VA">Virginia</option>
+                  <option value="WA">Washington</option>
+                  <option value="WV">West Virginia</option>
+                  <option value="WI">Wisconsin</option>
+                  <option value="WY">Wyoming</option>
+                </select>
+                <p class="error" id="state-err"></p>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Your home &amp; timing</legend>
+            <div class="row row--2">
+              <div class="field">
+                <label for="home">Your home</label>
+                <select id="home" name="home" required data-required="Please choose the closest match." aria-describedby="home-err">
+                  <option value="">Choose one</option>
+                  <option value="farm">Working farm or ranch</option>
+                  <option value="rural">Homestead or rural acreage</option>
+                  <option value="suburban">Suburban home with a fenced yard</option>
+                  <option value="other">Other</option>
+                </select>
+                <p class="error" id="home-err"></p>
+              </div>
+              <div class="field">
+                <label for="timeline">Timeline</label>
+                <select id="timeline" name="timeline" required data-required="Please choose a timeline." aria-describedby="timeline-err">
+                  <option value="">Choose one</option>
+                  <option value="now">Ready now</option>
+                  <option value="6mo">Within 6 months</option>
+                  <option value="1yr">Within a year</option>
+                  <option value="researching">Just researching</option>
+                  <option value="custom">Custom timeframe…</option>
+                </select>
+                <p class="error" id="timeline-err"></p>
+              </div>
+            </div>
+            <div class="reveal-field" id="timeline-custom-wrap" aria-hidden="true">
+              <div>
+                <div class="field">
+                  <label for="timeline_custom">Your preferred timeframe</label>
+                  <input id="timeline_custom" name="timeline_custom" type="text" maxlength="120" placeholder="e.g. Spring 2027, once our fencing is finished" data-required="Tell us roughly when you’d like your puppy." aria-describedby="timeline_custom-err" disabled>
+                  <p class="error" id="timeline_custom-err"></p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <fieldset class="field">
+                <legend class="label">Puppy preference <span class="opt">(optional)</span></legend>
+                <div class="choices">
+                  <label class="choice"><input type="radio" name="sex" value="male"><span>Male</span></label>
+                  <label class="choice"><input type="radio" name="sex" value="female"><span>Female</span></label>
+                  <label class="choice"><input type="radio" name="sex" value="either"><span>No preference</span></label>
+                </div>
+              </fieldset>
+              <div class="field">
+                <label for="experience">Guardian dog experience <span class="opt">(optional)</span></label>
+                <select id="experience" name="experience">
+                  <option value="">Choose one</option>
+                  <option value="first">This would be my first</option>
+                  <option value="owned">I’ve owned guardian breeds before</option>
+                  <option value="working">I currently work guardian dogs</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Tell us more</legend>
+            <div class="field">
+              <label for="message">What do you need from your Boz?</label>
+              <textarea id="message" name="message" maxlength="3000" required data-required="A few sentences help us match the right puppy." aria-describedby="message-hint message-err"></textarea>
+              <p class="hint" id="message-hint">Livestock, predators, fencing, other dogs, children at home — anything that helps us match the right puppy.</p>
+              <p class="error" id="message-err"></p>
+            </div>
+          </fieldset>
+
+          <div class="hp" aria-hidden="true">
+            <label for="website">Leave this field empty</label>
+            <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+          </div>
+
+          <div class="form__foot">
+            <button class="btn btn--primary" type="submit">Send application <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow"/></svg></button>
+            <p>Your details are used only to review your application. We never share them.</p>
+          </div>
+        </form>
+
+        <div class="success" id="apply-success" hidden>
+          <svg class="success__mark" viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="36" cy="36" r="30"/>
+            <path d="m24 37 8 8 16-17"/>
+          </svg>
+          <h2>Application received</h2>
+          <p>Thank you<span data-first></span>. We’ll review your application and be in touch at <strong data-email></strong>.</p>
+          <span class="ref" data-ref hidden></span>
+          <div class="btn-row">
+            <a class="btn btn--ghost" href="breed.html">Read about the breed</a>
+            <a class="btn btn--ghost" href="past-litters.html">See past litters</a>
+          </div>
+        </div>
+      </div>
+
+      <aside class="apply__aside" data-reveal>
+        <div class="aside-card">
+          <h3>What happens next</h3>
+          <ol class="steps">
+            <li><div><h3>We review</h3><p>We read every application personally.</p></div></li>
+            <li><div><h3>We talk</h3><p>We reach out to answer your questions and learn about your home.</p></div></li>
+            <li><div><h3>You reserve</h3><p>Approved families place a deposit to hold their puppy.</p></div></li>
+          </ol>
+        </div>
+        <div class="aside-card">
+          <h3>Not sure yet?</h3>
+          <p class="small">Boz Shepherds aren’t right for every home. Take a minute to see whether yours is a good fit.</p>
+          <div class="link-row">
+            <a class="link" href="breed.html#fit">Is a Boz right for you? <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow"/></svg></a>
+            <a class="link" href="index.html#included">What’s included <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <a class="brand" href="index.html">Kuma Kennels</a>
+      <p class="small">Purebred Turkish Boz Shepherds, raised with livestock in Eastern North Carolina.</p>
+    </div>
+    <nav aria-label="Footer: explore">
+      <h2>Explore</h2>
+      <ul>
+        <li><a href="breed.html">The Breed</a></li>
+        <li><a href="dogs.html">Our Dogs</a></li>
+        <li><a href="litters.html">Upcoming Litters</a></li>
+        <li><a href="past-litters.html">Past Litters</a></li>
+      </ul>
+    </nav>
+    <nav aria-label="Footer: puppies">
+      <h2>Puppies</h2>
+      <ul>
+        <li><a href="reserve.html">Reserve a puppy</a></li>
+        <li><a href="index.html#included">What’s included</a></li>
+        <li><a href="breed.html#fit">Is a Boz right for you?</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="container footer-base">
+    <span>© <span data-year>2026</span> Kuma Kennels</span>
+    <span>Eastern North Carolina</span>
+  </div>
+</footer>
+</body>
+</html>

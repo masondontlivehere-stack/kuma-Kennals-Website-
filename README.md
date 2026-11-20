@@ -1,54 +1,40 @@
 # Kuma Kennels
 
-Static website for Kuma Kennels — pure Boz Shepherds in Eastern North Carolina.
-No build step, no dependencies: plain HTML, one stylesheet, one small script.
+Website for Kuma Kennels — purebred Turkish Boz Shepherds in Eastern North Carolina.
 
-## Pages
+**To put it online, follow [DEPLOY.md](DEPLOY.md).**
 
-| File | Page |
-| --- | --- |
-| `index.html` | Home |
-| `breed.html` | The Breed |
-| `dogs.html` | Our Dogs |
-| `litters.html` | Upcoming Litters |
-| `reserve.html` | Reserve |
+## What's here
 
-Shared files: `assets/css/style.css`, `assets/js/main.js`, photos in `assets/img/`.
-
-## Run it locally
-
-```bash
-python3 -m http.server 8000
-# then open http://localhost:8000
+```
+public/                 The website (what visitors see)
+  index.html            Home
+  breed.html            The Turkish Boz Shepherd
+  dogs.html             Our Dogs
+  litters.html          Upcoming Litters
+  past-litters.html     Past Litters
+  reserve.html          Puppy application
+  admin/                Breeder dashboard (password protected)
+  assets/               Styles, scripts, fonts, photos, icons
+  _headers              Security headers
+functions/api/          Backend: receives applications, powers the dashboard
+lib/                    Shared backend code (validation, database, email, security)
+schema.sql              Reference copy of the database tables (created automatically)
 ```
 
-## Publishing
+Hosting is Cloudflare Pages, the database is Cloudflare D1, and email alerts go through Resend. All three have free plans that comfortably cover a breeder website.
 
-Any static host works. For GitHub Pages: repository **Settings → Pages →
-Build and deployment → Deploy from a branch**, pick the branch and the `/ (root)` folder.
+## Common edits
 
-## Things to fill in
+Open the file on GitHub, click the pencil icon, edit, and commit — the site redeploys on its own.
 
-- **Contact details** — `reserve.html` has placeholder email, phone, and the
-  `data-email` attribute on the form. Replace all three (marked `EDIT ME`).
-  The form opens the visitor's email app with their answers; nothing is stored
-  on the site. Swap in a form service (Formspree, Netlify Forms) if you want
-  inquiries delivered without that step.
-- **Litter board** — `litters.html`, section marked `EDIT ME`: update pairings,
-  dates, and availability as litters are planned and born.
-- **Photos of Ruby and Nala** — `dogs.html` shows a "Photo coming soon"
-  placeholder for each. Drop the photos in `assets/img/` and replace the
-  `<p class="photo-pending">…</p>` block with an `<img>` like the ones above it.
+- **Litter news** — `public/litters.html`, inside the block marked `EDIT ME`. Change the status pill (`Planned`, `Expected`, `Born — taking applications`, `Fully reserved`) and replace "To be announced" with dates.
+- **Past litters** — `public/past-litters.html`, marked `EDIT ME`. Copy a whole `<article class="past-litter">` to add a litter. Fill in Born / Puppies, and add photos to its gallery.
+- **New photos** — upload to `public/assets/img/` (JPEG, about 1600px on the long side is plenty), then point an `<img src="assets/img/…">` at it.
+- **Ruby and Nala** — `public/dogs.html` has a "Photos coming soon" card for each; replace the `.pending` block with an image (instructions are in the comment above it).
 
-## Photo credits
+## Design
 
-Every photo on the site is the kennel's own: Tank, Talat, Paige, Zaina, and Kuma.
-
-## Design notes
-
-- Type: EB Garamond (headings) + Inter (body), loaded from Google Fonts.
-- Color tokens live at the top of `assets/css/style.css`. `--accent` is the
-  display orange; `--accent-text` and `--accent-btn` are the darker variants
-  used wherever small text or button labels need WCAG AA contrast.
-- Motion: one hero zoom on load plus scroll reveals, all disabled under
-  `prefers-reduced-motion`. The site renders fully with JavaScript off.
+- Type: Fraunces (headings) and Inter (text), self-hosted in `public/assets/fonts/`.
+- Colors live at the top of `public/assets/css/style.css`. `--accent` is the brand orange; `--accent-ink` is the darker version used for small text so it stays readable.
+- Motion: hero intro, scroll reveals, and fades between pages. All of it switches off for visitors who've asked their device to reduce motion.

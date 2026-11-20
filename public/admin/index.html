@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Applications — Kuma Kennels</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/admin.css">
+<script src="../assets/js/admin.js" defer></script>
+</head>
+<body class="admin">
+
+<header class="admin-bar">
+  <div class="admin-wrap admin-bar__inner">
+    <a class="brand" href="../index.html">Kuma Kennels <small>Breeder</small></a>
+    <div class="admin-bar__actions" id="bar-actions" hidden>
+      <a class="btn btn--ghost btn--sm" id="export" href="/api/admin/export">Export CSV</a>
+      <button class="btn btn--ghost btn--sm" id="logout" type="button">Sign out</button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- Sign in -->
+  <section class="login" id="login" hidden>
+    <form class="login__card" id="login-form" novalidate>
+      <p class="kicker">Breeder dashboard</p>
+      <h1>Sign in</h1>
+      <p class="muted">Review and manage puppy applications.</p>
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required>
+      </div>
+      <p class="login__error" id="login-error" role="alert"></p>
+      <button class="btn btn--primary" type="submit">Sign in</button>
+    </form>
+  </section>
+
+  <!-- Dashboard -->
+  <section class="dash admin-wrap" id="dash" hidden>
+    <div class="notice" id="setup-note" hidden>
+      <strong>Email alerts are off.</strong>
+      Applications are still saved here. To get an email for each new one, add <code>RESEND_API_KEY</code> and <code>NOTIFY_EMAIL</code> in Cloudflare (see DEPLOY.md).
+    </div>
+
+    <div class="dash__head">
+      <div>
+        <h1>Applications</h1>
+        <p class="muted small" id="updated">Loading…</p>
+      </div>
+      <div class="dash__tools">
+        <label class="visually-hidden" for="q">Search applications</label>
+        <input class="search" id="q" type="search" placeholder="Search name, email, city…" autocomplete="off">
+        <button class="btn btn--ghost btn--sm" id="refresh" type="button">Refresh</button>
+      </div>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Filter by status" id="tabs">
+      <button role="tab" type="button" data-status="new" aria-selected="true">New <span data-count="new">0</span></button>
+      <button role="tab" type="button" data-status="contacted" aria-selected="false">Contacted <span data-count="contacted">0</span></button>
+      <button role="tab" type="button" data-status="approved" aria-selected="false">Approved <span data-count="approved">0</span></button>
+      <button role="tab" type="button" data-status="waitlist" aria-selected="false">Waitlist <span data-count="waitlist">0</span></button>
+      <button role="tab" type="button" data-status="declined" aria-selected="false">Declined <span data-count="declined">0</span></button>
+      <button role="tab" type="button" data-status="all" aria-selected="false">All <span data-count="all">0</span></button>
+    </div>
+
+    <div class="list" id="list" role="tabpanel" aria-live="polite"></div>
+    <div class="empty" id="empty" hidden>
+      <p class="empty__title">Nothing here yet.</p>
+      <p class="muted small">New applications appear here the moment they’re submitted.</p>
+    </div>
+  </section>
+
+  <!-- Detail drawer -->
+  <div class="scrim" id="scrim" hidden></div>
+  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="d-name" hidden>
+    <div class="drawer__head">
+      <div>
+        <p class="kicker" id="d-ref"></p>
+        <h2 id="d-name"></h2>
+        <p class="muted small" id="d-date"></p>
+      </div>
+      <button class="icon-btn" id="d-close" type="button" aria-label="Close">
+        <svg class="icon" aria-hidden="true"><use href="../assets/img/icons.svg#i-x"/></svg>
+      </button>
+    </div>
+
+    <div class="drawer__body">
+      <div class="contact-actions">
+        <a class="btn btn--dark btn--sm" id="d-email" href="#">Email</a>
+        <a class="btn btn--ghost btn--sm" id="d-call" href="#">Call</a>
+      </div>
+
+      <dl class="kv">
+        <div><dt>Email</dt><dd id="d-email-text"></dd></div>
+        <div><dt>Phone</dt><dd id="d-phone"></dd></div>
+        <div><dt>Location</dt><dd id="d-location"></dd></div>
+        <div><dt>Home</dt><dd id="d-home"></dd></div>
+        <div><dt>Timeline</dt><dd id="d-timeline"></dd></div>
+        <div><dt>Preference</dt><dd id="d-sex"></dd></div>
+        <div><dt>Experience</dt><dd id="d-experience"></dd></div>
+      </dl>
+
+      <h3 class="drawer__label">What they need</h3>
+      <p class="message" id="d-message"></p>
+
+      <p class="notice notice--warn" id="d-notify" hidden></p>
+
+      <form class="manage" id="manage">
+        <div class="field">
+          <label for="d-status">Status</label>
+          <select id="d-status" name="status">
+            <option value="new">New</option>
+            <option value="contacted">Contacted</option>
+            <option value="approved">Approved</option>
+            <option value="waitlist">Waitlist</option>
+            <option value="declined">Declined</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="d-notes">Private notes</label>
+          <textarea id="d-notes" name="notes" maxlength="5000" placeholder="Call notes, deposit status, puppy match…"></textarea>
+        </div>
+        <div class="manage__foot">
+          <button class="btn btn--primary btn--sm" type="submit">Save changes</button>
+          <span class="saved" id="d-saved" role="status"></span>
+          <button class="link-danger" id="d-delete" type="button">Delete application</button>
+        </div>
+      </form>
+    </div>
+  </aside>
+
+</main>
+</body>
+</html>

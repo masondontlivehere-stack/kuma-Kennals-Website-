@@ -1,0 +1,4 @@
+# Copy to .dev.vars for local development (never commit .dev.vars).
+ADMIN_PASSWORD=choose-a-long-password-here
+# RESEND_API_KEY=re_xxxxxxxx
+# NOTIFY_EMAIL=you@example.com
