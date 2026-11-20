@@ -17,7 +17,7 @@
 <script src="assets/js/boot.js"></script>
 <script src="assets/js/main.js" defer></script>
 </head>
-<body class="has-hero">
+<body>
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="site-header">
@@ -54,17 +54,17 @@
 <main id="main">
 
   <section class="hero">
-    <div class="hero__media">
-      <img src="assets/img/kuma.jpg" srcset="assets/img/kuma-640.jpg 640w, assets/img/kuma.jpg 1078w" sizes="100vw" width="1078" height="1202" alt="Kuma, a grey Turkish Boz Shepherd, resting on the ground with his paws stretched forward" fetchpriority="high">
-    </div>
-    <div class="container">
+    <div class="hero__grid">
+      <figure class="hero__media">
+        <img src="assets/img/kuma.jpg" srcset="assets/img/kuma-640.jpg 640w, assets/img/kuma.jpg 1078w" sizes="(min-width: 900px) 52vw, 100vw" width="1078" height="1202" alt="Kuma, a grey Turkish Boz Shepherd, resting on the ground with his paws stretched forward" fetchpriority="high">
+      </figure>
       <div class="hero__content">
         <p class="kicker" data-intro>Turkish Boz Shepherds · Eastern North Carolina</p>
         <h1 data-intro="1">Guardians of the flock. <em>Companions for life.</em></h1>
         <p class="hero__text" data-intro="2">Purebred, registered Boz Shepherd puppies from Embark-tested parents — raised with livestock and placed with families who understand the breed.</p>
         <div class="btn-row" data-intro="3">
           <a class="btn btn--primary" href="reserve.html">Reserve a puppy <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow"/></svg></a>
-          <a class="btn btn--light" href="breed.html">Meet the breed</a>
+          <a class="btn btn--ghost" href="breed.html">Meet the breed</a>
         </div>
       </div>
     </div>
