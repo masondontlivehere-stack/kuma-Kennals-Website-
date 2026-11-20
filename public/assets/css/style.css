@@ -313,8 +313,8 @@ body{ padding-top:var(--header-h); }
   background:var(--sand);
 }
 .hero__media img{
-  width:100%; height:100%; object-fit:cover; object-position:58% 22%;
-  animation:hero-settle 2.4s var(--ease-out) both;
+  position:absolute; left:0; top:-8%; width:100%; height:116%;
+  object-fit:cover; object-position:58% 22%;
 }
 .hero__content{ padding:2.25rem var(--gutter) 3.25rem; }
 .hero h1{ font-size:clamp(2.45rem, 9.6vw, 4.6rem); }
@@ -323,9 +323,16 @@ body{ padding-top:var(--header-h); }
 .hero .btn-row{ margin-top:2rem; }
 
 .hero [data-intro]{ animation:intro-up 1s var(--ease-out) both; animation-delay:calc(var(--d, 0) * 110ms + 120ms); }
-.hero [data-intro="1"]{ --d:1; } .hero [data-intro="2"]{ --d:2; } .hero [data-intro="3"]{ --d:3; }
+.hero [data-intro="2"]{ --d:4; } .hero [data-intro="3"]{ --d:5; }
 
-@keyframes hero-settle{ from{ transform:scale(1.06); } to{ transform:scale(1); } }
+/* photo: sweeps open (top-down on phones, right-to-left on desktop), then settles */
+.js .hero__media{ clip-path:inset(0 0 100% 0); }
+.js .hero__media img{ scale:1.18; }
+.js .hero__media.is-ready{ animation:wipe-open 1.35s var(--ease-out) .05s forwards; }
+.js .hero__media.is-ready img{ animation:hero-settle 2.6s var(--ease-out) forwards; }
+@media (min-width:900px){ .js .hero__media{ clip-path:inset(0 0 0 100%); } }
+@keyframes wipe-open{ to{ clip-path:inset(0 0 0 0); } }
+@keyframes hero-settle{ to{ scale:1; } }
 @keyframes intro-up{ from{ opacity:0; transform:translateY(18px); } to{ opacity:1; transform:none; } }
 
 @media (max-width:599px){
@@ -886,4 +893,68 @@ html{ background:var(--white); }
   .split{ gap:2rem; }
   .profiles{ gap:3.5rem; }
   .menu{ padding-bottom:calc(2rem + env(safe-area-inset-bottom)); }
+}
+
+/* ==========================================================================
+   Motion, round two
+   ========================================================================== */
+
+/* Headlines rise in word by word (spans are added by main.js) */
+.w{
+  display:inline-block; overflow:hidden; vertical-align:top;
+  padding:0 .08em .22em 0; margin:0 -.08em -.22em 0;
+}
+.w > span{
+  display:inline-block; transform:translateY(108%);
+  transition:transform 1.05s var(--ease-out);
+  transition-delay:calc(var(--w, 0) * 55ms + var(--wd, 60ms));
+}
+.is-in .w > span{ transform:none; }
+.hero h1{ --wd:180ms; }
+
+/* Header glides in on the first page of a visit */
+.first-visit .site-header .brand,
+.first-visit .site-header .nav,
+.first-visit .site-header .menu-toggle{ animation:intro-down .9s var(--ease-out) both; }
+.first-visit .site-header .nav,
+.first-visit .site-header .menu-toggle{ animation-delay:.15s; }
+@keyframes intro-down{ from{ opacity:0; transform:translateY(-14px); } }
+
+/* Icons draw themselves as line art when their block appears */
+.js [data-reveal] svg.icon{ stroke-dasharray:100; stroke-dashoffset:100; transition:stroke-dashoffset 1.8s var(--ease-out) .25s; }
+.js .is-in svg.icon{ stroke-dashoffset:0; }
+
+/* Divider lines sweep across */
+.trait{ border-top:0; position:relative; }
+.trait::before{ content:""; position:absolute; left:0; right:0; top:0; height:1px; background:var(--line-2); transform-origin:left; }
+.js .trait[data-reveal]::before{ transform:scaleX(0); transition:transform 1.3s var(--ease-out); transition-delay:calc(var(--i, 0) * 90ms + .1s); }
+.js .trait.is-in::before{ transform:scaleX(1); }
+
+/* Dog photos unveil from the bottom up and settle */
+.js .portrait[data-reveal] .frame,
+.js .coats [data-reveal] .frame{
+  clip-path:inset(100% 0 0 0 round var(--radius));
+  transition:clip-path 1.25s var(--ease-out); transition-delay:calc(var(--i, 0) * 90ms);
+}
+.js .portrait[data-reveal] .frame img,
+.js .coats [data-reveal] .frame img{ scale:1.14; transition:scale 1.8s var(--ease-out), transform 1.2s var(--ease-out); transition-delay:calc(var(--i, 0) * 90ms), 0s; }
+.js .portrait.is-in .frame, .js .coats .is-in .frame{ clip-path:inset(0 0 0 0 round var(--radius)); }
+.js .portrait.is-in .frame img, .js .coats .is-in .frame img{ scale:1; }
+.js .portrait[data-reveal], .js .coats [data-reveal]{ transform:none; }
+
+/* Pages fade and lift into each other */
+::view-transition-old(root){ animation:vt-out .32s var(--ease) both; }
+::view-transition-new(root){ animation:vt-in .6s var(--ease-out) both; }
+@keyframes vt-out{ to{ opacity:0; transform:translateY(-10px); } }
+@keyframes vt-in{ from{ opacity:0; transform:translateY(16px); } }
+
+@media (prefers-reduced-motion:reduce){
+  .w > span{ transform:none !important; }
+  .js .hero__media{ clip-path:none !important; }
+  .js .hero__media img{ scale:1 !important; translate:none !important; }
+  .js [data-reveal] svg.icon{ stroke-dashoffset:0 !important; }
+  .js .trait::before{ transform:none !important; }
+  .js .portrait .frame, .js .coats .frame{ clip-path:none !important; }
+  .js .portrait .frame img, .js .coats .frame img{ scale:1 !important; }
+  .first-visit .site-header *{ animation:none !important; }
 }

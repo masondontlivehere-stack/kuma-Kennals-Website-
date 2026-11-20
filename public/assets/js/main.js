@@ -60,10 +60,78 @@
     window.matchMedia('(min-width: 1040px)').addEventListener('change', function (mq) { if (mq.matches) setMenu(false); });
   }
 
+  /* ---------- Headlines: wrap each word so it can rise into place ---------- */
+  function splitWords(el) {
+    var wordIndex = 0;
+    (function walk(node) {
+      Array.prototype.slice.call(node.childNodes).forEach(function (child) {
+        if (child.nodeType === 3) {
+          var parts = child.textContent.split(/(\s+)/);
+          var frag = document.createDocumentFragment();
+          parts.forEach(function (part) {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+            var outer = document.createElement('span');
+            var inner = document.createElement('span');
+            outer.className = 'w';
+            inner.textContent = part;
+            inner.style.setProperty('--w', String(wordIndex++));
+            outer.appendChild(inner);
+            frag.appendChild(outer);
+          });
+          child.parentNode.replaceChild(frag, child);
+        } else if (child.nodeType === 1 && !child.classList.contains('w')) {
+          walk(child);
+        }
+      });
+    })(el);
+  }
+
+  if (!reduce.matches) {
+    document.querySelectorAll('main h1, main h2, .profile__body h3').forEach(function (h) {
+      // Only headings that something will reveal; otherwise they'd stay hidden.
+      if (h.closest('#apply-success')) return;
+      if (h.closest('[data-reveal]') || h.closest('.hero')) splitWords(h);
+    });
+  }
+
+  /* ---------- Home hero: photo sweeps in once loaded, text rises ---------- */
+  var hero = document.querySelector('.hero');
+  if (hero) {
+    window.requestAnimationFrame(function () { hero.classList.add('is-in'); });
+    var media = hero.querySelector('.hero__media');
+    var heroImg = media && media.querySelector('img');
+    if (media && heroImg) {
+      var ready = function () { media.classList.add('is-ready'); };
+      if (heroImg.complete && heroImg.naturalWidth) ready();
+      else {
+        heroImg.addEventListener('load', ready, { once: true });
+        heroImg.addEventListener('error', ready, { once: true });
+        window.setTimeout(ready, 1800);
+      }
+
+      // Gentle parallax: the photo drifts slower than the page.
+      if (!reduce.matches) {
+        var drift = false;
+        var applyDrift = function () {
+          var rect = media.getBoundingClientRect();
+          if (rect.bottom > 0) {
+            var shift = Math.min(Math.max(-rect.top, 0) * 0.18, rect.height * 0.075);
+            heroImg.style.translate = '0 ' + shift.toFixed(1) + 'px';
+          }
+          drift = false;
+        };
+        window.addEventListener('scroll', function () {
+          if (!drift) { drift = true; window.requestAnimationFrame(applyDrift); }
+        }, { passive: true });
+      }
+    }
+  }
+
   /* ---------- Scroll reveals ---------- */
   document.querySelectorAll('[data-reveal-group]').forEach(function (group) {
     Array.prototype.forEach.call(group.querySelectorAll('[data-reveal]'), function (el, i) {
-      el.style.setProperty('--i', String(i % 6));
+      el.style.setProperty('--i', String(Math.min(i, 9)));
     });
   });
 
